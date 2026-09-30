@@ -1,0 +1,13 @@
+{
+  "name": "nederlands-school",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hoi! Nederlands — онлайн-курси нідерландської мови (статична збірка)",
+  "scripts": {
+    "start": "node server/dev-server.js",
+    "dev": "node server/dev-server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
