@@ -1,0 +1,16 @@
+/*
+ * Порядок імпортів повторює каскад продакшн-збірки і має значення:
+ * Tailwind кладе свої шари першими, далі авторські файли перекривають
+ * одне одного в тій самій послідовності, що й в оригіналі
+ * (напр. `.hero` з hero.css перекриває `.hero` з base.css).
+ */
+@import "tailwindcss";
+
+@import "./base.css";
+@import "./hero.css";
+@import "./type-loop.css";
+@import "./ribbon.css";
+@import "./ui.css";
+@import "./dialog.css";
+@import "./sections.css";
+@import "./fonts.css";

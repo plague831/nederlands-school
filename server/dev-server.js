@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-'use strict';
-
 /**
- * Локальний статичний сервер для сайту «Hoi! Nederlands».
+ * Локальний статичний сервер для готової збірки сайту «Hoi! Nederlands».
+ *
+ * Для розробки використовуй `npm run dev` (Vite з гарячим перезавантаженням) —
+ * цей сервер потрібен, щоб подивитися саме собрану статику так, як її
+ * віддасть хостинг.
  *
  * Без жодних залежностей — потрібен лише Node.js 18+.
- * Запуск: `npm start` (або `node server/dev-server.js`).
+ * Запуск: `npm run serve` (або `node server/dev-server.js`).
  *
  * Змінні середовища:
  *   PORT      — стартовий порт (типово 4173). Якщо зайнятий, візьме наступний вільний.
@@ -13,33 +15,51 @@
  *   SITE_DIR  — тека з index.html (типово визначається автоматично).
  */
 
-const http = require('node:http');
-const fs = require('node:fs');
-const fsp = require('node:fs/promises');
-const path = require('node:path');
+import http from 'node:http';
+import fs from 'node:fs';
+import fsp from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const HOST = process.env.HOST || '127.0.0.1';
 const START_PORT = Number.parseInt(process.env.PORT, 10) || 4173;
 const MAX_PORT_ATTEMPTS = 20;
 
 /**
- * Тека, з якої роздаються файли.
+ * Тека, з якої роздаються файли: збірка Vite (`dist/`), якщо SITE_DIR не задано.
  *
- * Визначається автоматично, щоб сервер працював і з пласкою структурою
- * (index.html у корені), і після переїзду статики в `public/`.
+ * Корінь проєкту навмисно не є запасним варіантом — там лежить вихідний
+ * `index.html`, який посилається на `/src/main.tsx` і без Vite не працює.
+ * Тому за відсутності збірки краще зупинитися з підказкою, ніж віддати
+ * сторінку, яка все одно не запуститься.
  */
 const SITE_DIR = resolveSiteDir();
 
 function resolveSiteDir() {
   if (process.env.SITE_DIR) {
-    return path.resolve(PROJECT_ROOT, process.env.SITE_DIR);
+    const dir = path.resolve(PROJECT_ROOT, process.env.SITE_DIR);
+    if (!fs.existsSync(path.join(dir, 'index.html'))) {
+      console.error(`[dev-server] У теці ${dir} немає index.html.`);
+      process.exit(1);
+    }
+    return dir;
   }
-  const candidates = [path.join(PROJECT_ROOT, 'public'), PROJECT_ROOT];
-  for (const dir of candidates) {
-    if (fs.existsSync(path.join(dir, 'index.html'))) return dir;
-  }
-  return PROJECT_ROOT;
+
+  const dist = path.join(PROJECT_ROOT, 'dist');
+  if (fs.existsSync(path.join(dist, 'index.html'))) return dist;
+
+  console.error('');
+  console.error('  Збірки не знайдено.');
+  console.error('');
+  console.error('  Цей сервер віддає готову статику з dist/. Спочатку збери проєкт:');
+  console.error('    npm install   (один раз)');
+  console.error('    npm run build');
+  console.error('');
+  console.error('  Для розробки з гарячим перезавантаженням використовуй:  npm run dev');
+  console.error('');
+  process.exit(1);
 }
 
 const MIME_TYPES = new Map(
@@ -176,6 +196,18 @@ const server = http.createServer((req, res) => {
   });
 });
 
+// Анонс вішаємо один раз і беремо порт із самого сокета: при переборі
+// зайнятих портів колбеки з попередніх спроб інакше друкували б старий номер.
+server.once('listening', () => {
+  const { port } = server.address();
+  console.log('');
+  console.log('  Hoi! Nederlands — локальний сервер запущено');
+  console.log(`  → http://${HOST}:${port}`);
+  console.log(`  Тека: ${SITE_DIR}`);
+  console.log('  Зупинити: Ctrl+C');
+  console.log('');
+});
+
 /** Пробує зайняти порт, а якщо він зайнятий — наступні (до MAX_PORT_ATTEMPTS). */
 function listen(port, attemptsLeft) {
   server.once('error', (error) => {
@@ -188,14 +220,7 @@ function listen(port, attemptsLeft) {
     process.exit(1);
   });
 
-  server.listen(port, HOST, () => {
-    console.log('');
-    console.log('  Hoi! Nederlands — локальний сервер запущено');
-    console.log(`  → http://${HOST}:${port}`);
-    console.log(`  Тека: ${SITE_DIR}`);
-    console.log('  Зупинити: Ctrl+C');
-    console.log('');
-  });
+  server.listen(port, HOST);
 }
 
 for (const signal of ['SIGINT', 'SIGTERM']) {

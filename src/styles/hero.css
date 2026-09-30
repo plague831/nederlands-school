@@ -1,0 +1,227 @@
+.progress-track {
+  background: #e7e9f1;
+  border-radius: 99px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.progress-track span {
+  border-radius: inherit;
+  background: var(--blue);
+  height: 100%;
+  transition: width .25s;
+  display: block;
+}
+
+.hero {
+  isolation: isolate;
+  color: #fff;
+  background: radial-gradient(circle at 79% 18%,#ffe05bfa 0 12%,#0000 31%),radial-gradient(circle at 91% 74%,#5cbefff0 0 10%,#0000 32%),radial-gradient(circle at 57% 88%,#ff85c8d9 0 15%,#0000 38%),linear-gradient(128deg,#ff5f52 0%,#ff7588 46%,#ff8abd 100%);
+}
+
+.hero:before {
+  content: "";
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg,#791e3e2e,#0000 58%);
+  position: absolute;
+  inset: 0;
+}
+
+.hero h1 em {
+  color: #fff4a6;
+}
+
+.hero-copy>p {
+  color: #fffffff0;
+}
+
+.hero .primary-cta {
+  color: var(--ink);
+  background: #fff;
+  box-shadow: 0 12px #141b3b24;
+}
+
+.hero .primary-cta:hover {
+  box-shadow: 0 8px #141b3b24;
+}
+
+.hero .text-cta,
+.hero .eyebrow {
+  color: #fff;
+}
+
+.hero-cloud {
+  mix-blend-mode: screen;
+}
+
+.cloud-one {
+  filter: blur(34px);
+  opacity: .52;
+  background: radial-gradient(circle at 26% 34%,#fff493f2 0 24%,#0000 25%),radial-gradient(circle at 68% 29%,#75cfffe6 0 28%,#0000 29%),radial-gradient(circle at 48% 72%,#ffaed2e6 0 35%,#0000 36%);
+  top: -90px;
+  right: -210px;
+}
+
+.cloud-two {
+  opacity: .5;
+  background: radial-gradient(circle,#ffec7acc,#0000 67%);
+}
+
+.hero-art {
+  perspective: 900px;
+  place-items: center;
+  display: grid;
+  overflow: visible;
+}
+
+.word-sculpture {
+  aspect-ratio: 1;
+  width: min(43vw,590px);
+  transform-style: preserve-3d;
+  animation: 7s ease-in-out infinite sculpture-float;
+  position: relative;
+}
+
+.word-sculpture:before {
+  content: "";
+  filter: blur(18px);
+  background: radial-gradient(circle,#ffffff38,#0000 67%);
+  border-radius: 50%;
+  position: absolute;
+  inset: 20%;
+}
+
+.word-band {
+  color: #fff;
+  white-space: nowrap;
+  width: 92%;
+  height: 29%;
+  transform-style: preserve-3d;
+  text-shadow: 0 2px 16px #6017342e;
+  border: 3px solid #ffffffe6;
+  border-radius: 50%;
+  align-items: center;
+  margin: -14.5% 0 0 -46%;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  box-shadow: inset 0 0 24px #ffffff29,0 0 30px #ffffff14;
+}
+
+.word-band span {
+  letter-spacing: -.045em;
+  flex: none;
+  font-size: clamp(25px,3.3vw,52px);
+  font-weight: 950;
+  line-height: 1;
+  animation: 9s linear infinite type-flow;
+  display: inline-block;
+}
+
+.band-one {
+  transform: rotate(-17deg)rotateX(61deg);
+}
+
+.band-two {
+  opacity: .9;
+  transform: rotate(47deg)rotateY(58deg);
+}
+
+.band-two span {
+  animation-duration: 11s;
+  animation-direction: reverse;
+}
+
+.band-three {
+  opacity: .75;
+  transform: rotate(104deg)rotateX(66deg);
+}
+
+.band-three span {
+  animation-duration: 13s;
+}
+
+.word-core {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  width: 112px;
+  height: 112px;
+  font: 900 33px/1 var(--font-display), serif;
+  background: #ffffff1f;
+  border: 2px solid #ffffffe6;
+  border-radius: 50%;
+  place-items: center;
+  margin: -56px;
+  animation: 12s linear infinite reverse core-spin;
+  display: grid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-shadow: 0 16px 55px #5d163033;
+}
+
+@keyframes type-flow {
+  to {
+    transform: translate(-100%);
+  }
+}
+
+@keyframes sculpture-float {
+  0%,
+  to {
+    transform: rotate(-2deg)translateY(0);
+  }
+  50% {
+    transform: rotate(3deg)translateY(-18px);
+  }
+}
+
+@keyframes core-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width:1050px) {
+  .word-sculpture {
+    width: min(72vw,540px);
+  }
+}
+
+@media (max-width:650px) {
+  .hero-art {
+    height: 390px;
+    margin-top: 20px;
+  }
+  .word-sculpture {
+    width: min(94vw,390px);
+  }
+  .word-band {
+    height: 31%;
+    margin-top: -15.5%;
+  }
+  .word-band span {
+    font-size: 30px;
+  }
+  .word-core {
+    width: 82px;
+    height: 82px;
+    margin: -41px;
+    font-size: 25px;
+  }
+  .hero-stats {
+    background: var(--ink);
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .word-sculpture,
+  .word-band span,
+  .word-core {
+    animation: none!important;
+  }
+}
