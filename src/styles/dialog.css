@@ -1,0 +1,140 @@
+[data-slot=dialog-content] {
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
+  width: calc(100% - 32px)!important;
+  max-width: 820px!important;
+  max-height: calc(100dvh - 32px)!important;
+  padding: 0!important;
+  overflow: hidden!important;
+}
+
+.dialog-scroll-body {
+  overscroll-behavior: contain;
+  overflow-wrap: anywhere;
+  gap: 16px;
+  min-height: 0;
+  padding: 76px 34px 34px;
+  display: grid;
+  overflow-y: auto;
+}
+
+[data-slot=dialog-content] .dialog-close-button {
+  z-index: 5;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  border-radius: 50%;
+  width: 46px;
+  min-width: 46px;
+  height: 46px;
+  padding: 10px;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  box-shadow: 0 3px #141b3b2e;
+}
+
+[data-slot=dialog-content] .dialog-close-button svg {
+  stroke-width: 2.5px;
+  width: 24px;
+  height: 24px;
+}
+
+[data-slot=dialog-content] .dialog-close-button:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+.hero-actions {
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  align-items: stretch;
+  display: grid;
+}
+
+.hero-actions>button {
+  width: 100%;
+  min-height: 76px;
+  color: var(--ink);
+  box-sizing: border-box;
+  background: #fff;
+  padding: 18px 22px;
+}
+
+.hero-actions>button svg {
+  flex-shrink: 0;
+}
+
+.ticker {
+  width: 100%;
+  margin: 0;
+  transform: none;
+}
+
+.ticker-track {
+  flex-shrink: 0;
+  width: max-content;
+  display: flex;
+}
+
+.ticker-track>span {
+  white-space: pre;
+  flex: none;
+}
+
+.register-form>* {
+  min-width: 0;
+}
+
+.email-suggestions {
+  flex-wrap: wrap;
+  gap: 8px;
+  display: flex;
+}
+
+.email-suggestions button {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  cursor: pointer;
+  background: #fff;
+  border-radius: 99px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+@media (max-width:650px) {
+  [data-slot=dialog-content] {
+    border-radius: 24px!important;
+    width: calc(100% - 28px)!important;
+    max-width: calc(100% - 28px)!important;
+    max-height: calc(100dvh - 32px)!important;
+  }
+  .dialog-scroll-body {
+    gap: 16px;
+    padding: 72px 20px 24px;
+  }
+  [data-slot=dialog-content] h2 {
+    font-size: clamp(28px,8vw,36px);
+    line-height: 1.1;
+  }
+  .dialog-columns>* {
+    min-width: 0;
+  }
+  .dialog-columns li svg {
+    flex-shrink: 0;
+  }
+  .goal-options {
+    min-width: 0;
+    padding: 12px;
+  }
+  .goal-options label {
+    border-radius: 18px;
+    line-height: 1.4;
+  }
+  .hero-actions {
+    grid-template-columns: 1fr;
+  }
+  .hero-actions>button {
+    min-height: 64px;
+  }
+}

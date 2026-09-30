@@ -1,0 +1,48 @@
+.ribbon-projection {
+  filter: drop-shadow(0 13px 20px #5c1d3a29);
+  width: min(67vw,980px);
+  height: auto;
+  overflow: visible;
+  transform: translate(8%,-17%);
+}
+
+.ribbon text {
+  fill: #fff;
+  stroke: #ffffff1a;
+  stroke-width: 5px;
+  paint-order: stroke fill;
+  font-family: var(--font-sans-site), Arial, sans-serif;
+  letter-spacing: -2px;
+  font-size: 48px;
+  font-weight: 950;
+}
+
+.ribbon-backward {
+  opacity: .82;
+}
+
+.ribbon-backward text {
+  stroke-width: 4px;
+  font-size: 46px;
+}
+
+@media (max-width:1050px) {
+  .ribbon-projection {
+    width: min(105vw,820px);
+    transform: translate(3%,-13%);
+  }
+}
+
+@media (max-width:650px) {
+  .ribbon-projection {
+    width: min(132vw,610px);
+    max-width: none;
+    transform: translate(2%,-11%);
+  }
+  .ribbon text {
+    font-size: 45px;
+  }
+  .ribbon-backward text {
+    font-size: 43px;
+  }
+}
